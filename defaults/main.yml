@@ -1,2 +1,7 @@
 ---
 # defaults file for panxatony.nginx
+
+nginx_firewall_allow_ports:
+  - 80/tcp
+  - 443/tcp
+nginx_activate_firewall: true

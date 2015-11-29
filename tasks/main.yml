@@ -16,3 +16,13 @@
   service: name=nginx state=started enabled=yes
   tags:
     - nginx
+
+- name: Make sure basic ports are opened in the firewall
+  firewalld: port="{{ item }}" permanent=true state=enabled
+  with_items: nginx_firewall_allow_ports
+  when: nginx_firewall_allow_ports is defined
+  when: nginx_activate_firewall == true
+  notify:
+    - restart firewalld
+  tags:
+    - nginx
