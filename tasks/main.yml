@@ -2,7 +2,6 @@
 # tasks file for panxatony.nginx
 
 - name: Install Nginx
-  sudo: yes
   yum: name={{ item }} state=present
   with_items:
     - epel-release
@@ -12,8 +11,12 @@
     - nginx
 
 - name: make sure nginx is running
-  sudo: yes
   service: name=nginx state=started enabled=yes
+  tags:
+    - nginx
+
+- name: start firewalld service
+  service: name=firewalld state=started enabled=yes
   tags:
     - nginx
 
