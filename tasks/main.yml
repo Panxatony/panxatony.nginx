@@ -26,6 +26,14 @@
   tags:
     - nginx
 
+- name: enable seboolean httpd_can_network_connect
+  seboolean: name=httpd_can_network_connect state=on persistent=yes
+  when: ansible_selinux.status is defined and ansible_selinux.status == 'enabled'
+  become: yes
+  become_user: root
+  tags:
+    - nginx
+
 - name: Make sure basic ports are opened in the firewall
   firewalld: port="{{ item }}" permanent=true state=enabled
   with_items: nginx_firewall_allow_ports
